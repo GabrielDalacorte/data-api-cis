@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  data-api:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: localhost
+      DB_USER: admin
+      DB_PASSWORD: admin
+      DB_NAME: cis
