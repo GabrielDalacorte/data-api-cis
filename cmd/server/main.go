@@ -8,6 +8,7 @@ import (
 
     "data-api-cis/internal/controllers"
     "data-api-cis/internal/models"
+    "github.com/gin-contrib/cors"
     "github.com/gin-gonic/gin"
     "gorm.io/driver/postgres"
     "gorm.io/gorm"
@@ -40,6 +41,14 @@ func main() {
     initDB()
 
     r := gin.Default()
+
+    r.Use(cors.New(cors.Config{
+        AllowOrigins:     []string{"http://localhost:3000"},
+        AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+        AllowHeaders:     []string{"Content-Type", "Authorization"},
+        ExposeHeaders:    []string{"Content-Length"},
+        AllowCredentials: true,
+    }))
 
     r.POST("/users", func(c *gin.Context) {
         var user models.User
