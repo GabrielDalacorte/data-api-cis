@@ -1,26 +1,16 @@
-# Etapa de construção
-FROM golang:1.20-alpine AS builder
+FROM golang:1.20-alpine
 
 WORKDIR /app
 
-COPY go.mod go.sum ./
+COPY go.mod ./
+COPY go.sum ./
 RUN go mod download
 
-COPY . .
+COPY ./cmd/server ./cmd/server
+COPY ./internal ./internal
 
-RUN go build -o main ./cmd/server
-
-FROM alpine:latest
-
-WORKDIR /root/
-
-COPY --from=builder /app/main .
-
-ENV DB_HOST=localhost
-ENV DB_USER=admin
-ENV DB_PASSWORD=admin
-ENV DB_NAME=cis
+RUN go build -o /data-api-cis ./cmd/server
 
 EXPOSE 8080
 
-CMD ["./main"]
+CMD ["/data-api-cis"]

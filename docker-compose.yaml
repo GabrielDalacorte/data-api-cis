@@ -6,7 +6,23 @@ services:
     ports:
       - "8080:8080"
     environment:
-      DB_HOST: localhost
-      DB_USER: admin
-      DB_PASSWORD: admin
-      DB_NAME: cis
+      DB_HOST: db
+      DB_USER: postgres
+      DB_PASSWORD: adminadmin
+      DB_NAME: db
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: adminadmin
+      POSTGRES_DB: db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

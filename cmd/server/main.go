@@ -29,6 +29,11 @@ func initDB() {
     if err != nil {
         log.Fatalf("Falha ao conectar ao banco de dados: %v", err)
     }
+
+    err = DB.AutoMigrate(&models.User{})
+    if err != nil {
+        log.Fatalf("Falha ao migrar o banco de dados: %v", err)
+    }
 }
 
 func main() {
